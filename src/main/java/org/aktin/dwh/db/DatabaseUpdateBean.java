@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import liquibase.exception.LiquibaseException;
 
@@ -21,13 +24,25 @@ import liquibase.exception.LiquibaseException;
 @Singleton
 public class DatabaseUpdateBean {
 
-	public DatabaseUpdateBean(){
+	private DataSource ds;
+	
+	public DatabaseUpdateBean() throws NamingException{
+		InitialContext ctx = new InitialContext();
+		// also lookup SessionContext via (SessionContext)ctx.lookup("java:comp/EJBContext")
+
+		// TODO where to store/get the configuration for this EJB???
+		String dsName = "java:/AktinDS";
+		//log.info("Connecting to i2b2 database via "+dsName);
+		ds = (DataSource)ctx.lookup(dsName);
+
+		
 		// TODO acquire DataSource/Connection via CDI/JNDI or directly with host/user/password 
 	}
 	
 	private Connection openConnection() throws SQLException{
 		// TODO get a connection for the DataSource
-		throw new UnsupportedOperationException("TODO implement");
+		return ds.getConnection();
+		// throw new UnsupportedOperationException("TODO implement");
 	}
 	
 	/**

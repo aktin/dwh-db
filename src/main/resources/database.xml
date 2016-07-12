@@ -30,6 +30,28 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		
+		<createTable tableName="log_records">
+			<column name="ts" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="level" type="varchar(32)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="logger" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="source" type="VARCHAR(255)">
+				<constraints nullable="true"/>
+			</column>
+			<column name="message" type="text">
+				<constraints nullable="false"/>
+			</column>
+			<column name="cause" type="text">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+
 	</changeSet>
 
 </databaseChangeLog>

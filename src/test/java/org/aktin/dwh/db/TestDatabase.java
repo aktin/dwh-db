@@ -42,6 +42,11 @@ public class TestDatabase {
 	public static final Connection createTestConnection() throws SQLException{
 		TestDatabase test = new TestDatabase();
 		Connection dbc = test.createDatabase();
+		initializeDatabase(dbc);
+		return dbc;
+	}
+	
+	public static final void initializeDatabase(Connection dbc) throws SQLException{
 		try( LiquibaseWrapper w = new LiquibaseWrapper(dbc) ){
 			w.update();
 		} catch (LiquibaseException e) {
@@ -53,7 +58,6 @@ public class TestDatabase {
 			}
 			throw new SQLException("Error performing liquibase update", e);
 		}
-		return dbc;
 	}
 
 	private Connection createDatabase() throws SQLException{

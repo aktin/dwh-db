@@ -52,6 +52,34 @@
 			</column>
 		</createTable>
 
+		<createTable tableName="report_schedule">
+			<column name="report_id" type="varchar(255)">
+				<!-- report identifier -->
+				<constraints nullable="false"/>
+			</column>
+			<column name="schedule_expr" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="last_modified" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="report_options" type="text">
+				<!-- flat JSON map containing report options -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="target_uri" type="text">
+				<!-- usually a mailto URI, but may also be a file URI or http for POST -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="last_run" type="TIMESTAMP">
+				<constraints nullable="true"/>
+			</column>
+			<column name="last_error" type="text">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="scheduled_reports" columnNames="report_id, schedule_expr"/>
 	</changeSet>
 
 </databaseChangeLog>

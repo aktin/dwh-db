@@ -79,7 +79,7 @@
 			</column>
 		</createTable>
 
-		<addPrimaryKey tableName="scheduled_reports" columnNames="report_id, schedule_expr"/>
+		<addPrimaryKey tableName="report_schedule" columnNames="report_id, schedule_expr"/>
 	</changeSet>
 
 </databaseChangeLog>

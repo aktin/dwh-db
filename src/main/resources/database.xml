@@ -54,7 +54,7 @@
 
 		<createTable tableName="report_schedule">
 			<column name="report_id" type="varchar(255)">
-				<!-- report identifier -->
+				<!-- report identifier, references software module id, not in database -->
 				<constraints nullable="false"/>
 			</column>
 			<column name="schedule_expr" type="VARCHAR(255)">

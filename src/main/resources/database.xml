@@ -57,6 +57,90 @@
 		</createTable>
 
 		<addPrimaryKey tableName="report_schedule" columnNames="report_id, schedule_expr"/>
+		
+		<createTable tableName="broker_servers">
+			<column name="id" type="integer">
+				<constraints nullable="false"/>
+				<!-- TODO unique -->
+			</column>		
+			<column name="endpoint_uri" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="schedule_expr" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="deactivated" type="timestamp">
+				<!-- timestamp when the broker contact was deactivated -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="last_accessed" type="timestamp">
+				<!-- timestamp of the last successful access to the broker -->
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="broker_notification_uris">
+			<column name="broker_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="notification_uri" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="events" type="varchar(255)">
+				<!-- subset of the following: new-request, auto-summary -->
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="broker_requests">
+			<column name="broker_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="broker_request_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="broker_query_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="result_path" type="varchar(255)">
+				<!-- relative path to extracted result -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="result_confirmation_status" type="varchar(16)">
+				<!-- accepted, rejected, auto (no check of result specified at broker or query level)-->
+				<constraints nullable="true"/>
+			</column>			
+			<column name="result_confirmation_user" type="varchar(64)">
+				<constraints nullable="true"/>
+			</column>			
+			<column name="result_confirmation_time" type="timestamp">
+				<constraints nullable="true"/>
+			</column>			
+			
+			<!-- TODO timestamps -->
+		</createTable>
+		<createTable tableName="broker_queries">
+			<column name="broker_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="broker_query_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="content_xml" type="text">
+				<constraints nullable="false"/>
+			</column>
+			<column name="confirmation_status" type="varchar(16)">
+				<!-- accepted, check-result, rejected, auto (no check of request specified at broker level) -->
+				<constraints nullable="true"/>
+			</column>			
+			<column name="confirmation_user" type="varchar(64)">
+				<constraints nullable="true"/>
+			</column>			
+			<column name="confirmation_time" type="timestamp">
+				<constraints nullable="true"/>
+			</column>			
+		</createTable>
+		<!-- TODO addForeignKeyConstraint -->
+		<!-- TODO requests, etc. -->
+
 	</changeSet>
 
 </databaseChangeLog>

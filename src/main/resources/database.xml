@@ -29,6 +29,45 @@
 			</column>
 		</createTable>
 
+		<createTable tableName="generated_reports">
+			<column name="id" type="integer">
+				<!-- TODO primary key -->
+				<constraints nullable="false"/>
+			</column>
+			<column name="template_id" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="template_version" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="data_start" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="data_end" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="data_timestamp" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="media_type" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="status_type" type="VARCHAR(16)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="status_message" type="text">
+				<constraints nullable="true"/>
+			</column>
+			<column name="preferences" type="text">
+				<!-- flat map properties/xml -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="path" type="VARCHAR(255)">
+				<!-- usually a mailto URI, but may also be a file URI or http for POST -->
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+
 		<createTable tableName="report_schedule">
 			<column name="report_id" type="varchar(255)">
 				<!-- report identifier, references software module id, not in database -->

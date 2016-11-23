@@ -6,29 +6,9 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
 	http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<changeSet id="1" author="rwm">
-		
-		<createTable tableName="log_records">
-			<column name="ts" type="TIMESTAMP">
-				<constraints nullable="false"/>
-			</column>
-			<column name="level" type="varchar(32)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="logger" type="VARCHAR(255)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="source" type="VARCHAR(255)">
-				<constraints nullable="true"/>
-			</column>
-			<column name="message" type="text">
-				<constraints nullable="false"/>
-			</column>
-			<column name="cause" type="text">
-				<constraints nullable="true"/>
-			</column>
-		</createTable>
+	<changeSet id="v0.1" author="rwm">
 
+		<!-- TODO sequence for report id -->
 		<createTable tableName="generated_reports">
 			<column name="id" type="integer">
 				<!-- TODO primary key -->
@@ -52,10 +32,7 @@
 			<column name="media_type" type="VARCHAR(255)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="status_type" type="VARCHAR(16)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="status_message" type="text">
+			<column name="user_name" type="VARCHAR(16)">
 				<constraints nullable="true"/>
 			</column>
 			<column name="preferences" type="text">
@@ -67,6 +44,7 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		<createSequence sequenceName="generated_report_id"/>
 
 		<createTable tableName="report_schedule">
 			<column name="report_id" type="varchar(255)">

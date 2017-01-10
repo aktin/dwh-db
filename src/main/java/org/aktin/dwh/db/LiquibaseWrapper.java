@@ -45,6 +45,9 @@ public class LiquibaseWrapper implements AutoCloseable {
 		liquibase.update(new Contexts(), new LabelExpression());
 	}
 
+	public Liquibase getLiquibase(){
+		return liquibase;
+	}
 
 	@Override
 	public void close() throws DatabaseException{

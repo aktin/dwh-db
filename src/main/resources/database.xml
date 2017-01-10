@@ -9,10 +9,10 @@
 	<changeSet id="v0.1" author="rwm">
 
 		<!-- TODO sequence for report id -->
-		<createTable tableName="generated_reports">
+		<createTable tableName="generated_reports" remarks="Table to store generated reports">
 			<column name="id" type="integer">
 				<!-- TODO primary key -->
-				<constraints nullable="false"/>
+				<constraints nullable="false" primaryKey="true"/>
 			</column>
 			<column name="template_id" type="VARCHAR(255)">
 				<constraints nullable="false"/>
@@ -26,25 +26,27 @@
 			<column name="data_end" type="TIMESTAMP">
 				<constraints nullable="false"/>
 			</column>
-			<column name="data_timestamp" type="TIMESTAMP">
+			<column name="created_timestamp" type="TIMESTAMP" remarks="Timestamp, when the report record was created">
 				<constraints nullable="false"/>
 			</column>
-			<column name="media_type" type="VARCHAR(255)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="user_name" type="VARCHAR(16)">
+			<column name="created_by" type="VARCHAR(16)" remarks="User id who created the report, may be NULL for system">
 				<constraints nullable="true"/>
 			</column>
-			<column name="preferences" type="text">
+			<column name="preferences" type="text" remarks="Properties used to create the report">
 				<!-- flat map properties/xml -->
 				<constraints nullable="true"/>
 			</column>
-			<column name="path" type="VARCHAR(255)">
-				<!-- usually a mailto URI, but may also be a file URI or http for POST -->
+			<column name="data_timestamp" type="TIMESTAMP" remarks="Timestamp when the report data was extracted">
+				<constraints nullable="true"/>
+			</column>
+			<column name="media_type" type="VARCHAR(255)" remarks="Mediatype for the report result file referenced by *path*">
+				<constraints nullable="true"/>
+			</column>
+			<column name="path" type="VARCHAR(255)" remarks="Relative path to the report result. Usually a PDF document, or a stack-trace with error contents">
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
-		<createSequence sequenceName="generated_report_id"/>
+		<createSequence sequenceName="generated_reports_id"/>
 
 		<createTable tableName="report_schedule">
 			<column name="report_id" type="varchar(255)">

@@ -61,6 +61,11 @@ public class TestDatabase {
 	}
 
 	private Connection createDatabase() throws SQLException{
+		try {
+			Class.forName("org.hsqldb.jdbc.JDBCDriver");
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		}
 		return DriverManager.getConnection("jdbc:hsqldb:mem:aktin_test;shutdown=true", "sa", "");
 	}
 	

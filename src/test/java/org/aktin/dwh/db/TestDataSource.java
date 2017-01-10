@@ -11,21 +11,31 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import liquibase.exception.LiquibaseException;
+
 
 public class TestDataSource implements DataSource{
 	private static final Logger log = Logger.getLogger(TestDataSource.class.getName());
 	private PrintWriter logWriter;
-	private int version;
+//	private int version;
 	
+	public TestDataSource() throws SQLException {
+		try {
+			Class.forName("org.hsqldb.jdbc.JDBCDriver");
+		} catch (ClassNotFoundException e) {
+			throw new SQLException(e);
+		}
+		try( Connection dbc = getVanillaConnection() ){
+			// TODO use version
+			TestDatabase.initializeDatabase(dbc);
+		}
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public PrintWriter getLogWriter() throws SQLException {
 		return logWriter;
 	}
 
-	public void setVersion(int version){
-		this.version = version;
-		// TODO use this version for liquibase initialisation
-	}
 	@Override
 	public void setLogWriter(PrintWriter out) throws SQLException {
 		this.logWriter = out;
@@ -59,10 +69,13 @@ public class TestDataSource implements DataSource{
 //		return false;
 	}
 
+	private static Connection getVanillaConnection() throws SQLException{
+		return DriverManager.getConnection("jdbc:hsqldb:file:target/testdb;shutdown=true", "sa", "");		
+	}
 	@Override
 	public Connection getConnection() throws SQLException {
 		log.info("Opening connection..");
-		Connection dbc = DriverManager.getConnection("jdbc:hsqldb:file:target/testdb;shutdown=true", "sa", "");
+		Connection dbc = getVanillaConnection();
 		// check if database exists
 		// TODO why is this block not executed if the database was created.
 		// XXX probably logging is switched to different logging provider
@@ -81,8 +94,6 @@ public class TestDataSource implements DataSource{
 			}
 			s.close();
 		}
-		// TODO use version
-		TestDatabase.initializeDatabase(dbc);
 		log.info("done");
 		return dbc;
 	}
@@ -92,4 +103,12 @@ public class TestDataSource implements DataSource{
 		return getConnection();
 	}
 
+	public void dropAll() throws LiquibaseException, SQLException{
+		try( Connection dbc = getVanillaConnection() ){
+			LiquibaseWrapper w = new LiquibaseWrapper(dbc);
+			w.getLiquibase().dropAll();
+			w.close();
+		}
+		
+	}
 }

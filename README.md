@@ -4,6 +4,8 @@ DWH AKTIN Database
 The AKTIN database is managed through liquibase. The
 database changelog file is located in `src/main/resources`.
 
+TODO: move this project up, e.g. to dwh-api. Many other projects depend on this project for testing against a database
+
 Query Database
 ---------------
 ```

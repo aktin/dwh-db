@@ -22,7 +22,6 @@ public class LiquibaseUpdateProducer {
 	public CDILiquibaseConfig createConfig() {
 		CDILiquibaseConfig config = new CDILiquibaseConfig();
 		config.setChangeLog("database.xml");
-		System.err.println("XXX Creating liquibase config XXX");
 		return config;
 	}
 	@Produces @LiquibaseType

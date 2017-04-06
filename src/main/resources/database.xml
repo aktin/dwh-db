@@ -157,9 +157,89 @@
 				<constraints nullable="true"/>
 			</column>			
 		</createTable>
-		<!-- TODO addForeignKeyConstraint -->
-		<!-- TODO requests, etc. -->
-
 	</changeSet>
 
+
+	<changeSet id="v0.2" author="rwm">
+		<dropTable tableName="broker_requests"/>
+		<dropTable tableName="broker_queries"/>
+		<!--  TODO add column api_key to broker_servers -->
+		<createTable tableName="broker_requests">
+			<!-- TODO unique request id e.g. if multiple brokers are used -->
+			<column name="broker_request_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="broker_query_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="auto_submit" type="BOOLEAN" remarks="submit results without asking after completion">
+				<constraints nullable="false"/>
+			</column>
+			<column name="request_xml" type="TEXT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="status" type="VARCHAR(16)" remarks="request status">
+				<constraints nullable="false"/>
+			</column>
+			<!-- last modified timestamp can be calculated via MAX(action_log) -->
+			<column name="result_type" type="VARCHAR(255)" remarks="media type of result data">
+				<constraints nullable="true"/>
+			</column>
+			<column name="result_path" type="VARCHAR(255)" remarks="relative path to extracted result data">
+				<constraints nullable="true"/>
+			</column>
+			<column name="display" type="CHAR(1)" remarks="''=normal, S=starred, H=hidden" defaultValue="">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<!-- TODO index on display_type -->
+		<createTable tableName="request_action_log">
+			<!-- TODO broker id -->
+			<column name="broker_request_id" type="integer">
+				<constraints nullable="false"/>
+			</column>
+			<column name="timestamp" type="TIMESTAMP">
+				<constraints nullable="false"/>
+			</column>
+			<column name="user_id" type="VARCHAR(64)" remarks="user who triggered the action, null for automatic transitions">
+				<constraints nullable="true"/>
+			</column>
+			<column name="old_status" type="VARCHAR(16)">
+				<constraints nullable="true"/>
+			</column>
+			<column name="new_status" type="VARCHAR(16)">
+				<constraints nullable="true"/>
+			</column>
+			<column name="description" type="TEXT" remarks="message e.g. rejection reason, generated warnings, etc.">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+
+		<createTable tableName="broker_query_rules">
+			<!-- TODO broker id -->
+			<column name="broker_query_id" type="integer" remarks="query to which this rule applies">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_time" type="TIMESTAMP" remarks="when the rule was created">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_user" type="VARCHAR(64)" remarks="user who created the rule">
+				<constraints nullable="false"/>
+			</column>
+			<column name="action" type="VARCHAR(64)" remarks="action to perform. e.g. accept, reject, star">
+				<constraints nullable="false"/>
+			</column>
+			<column name="comment" type="TEXT" remarks="description, will not be sent">
+				<constraints nullable="false"/>
+			</column>
+			
+			<!-- 
+			<column name="xml_digest" type="VARCHAR(255)" description="message digest over the query XML (to prevent query modifications)">
+				<constraints nullable="true"/>
+			</column>
+			 -->
+			
+		</createTable>
+		
+	</changeSet>
 </databaseChangeLog>

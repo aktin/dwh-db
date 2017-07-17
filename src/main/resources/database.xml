@@ -242,4 +242,10 @@
 		</createTable>
 		
 	</changeSet>
+	<changeSet id="v0.3" author="rwm">
+		<dropNotNullConstraint
+            columnDataType="integer"
+            columnName="broker_query_id"
+            tableName="broker_requests"/>
+	</changeSet>
 </databaseChangeLog>

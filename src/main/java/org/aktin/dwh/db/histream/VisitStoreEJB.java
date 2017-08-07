@@ -25,11 +25,13 @@ public class VisitStoreEJB extends PostgresVisitStore{
 		// locate data source
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource)ctx.lookup(prefs.get(PreferenceKey.i2b2DatasourceCRC));
-		this.open(ds.getConnection(), prefs.get(PreferenceKey.i2b2Project));
+		open(ds.getConnection(), prefs.get(PreferenceKey.i2b2Project));
+		setRejectPatientChange(true);
 	}
 
 	public VisitStoreEJB(DataSource ds, String projectId) throws SQLException{
 		open(ds.getConnection(), projectId);
+		setRejectPatientChange(true);
 	}
 	
 	@PreDestroy

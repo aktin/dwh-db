@@ -6,17 +6,17 @@
 	
 	<groupId>org.aktin.dwh</groupId>
 	<artifactId>dwh-db</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 
 	<parent>
 		<groupId>org.aktin</groupId>
 		<artifactId>aktin</artifactId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.4</version>
 	</parent>
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:aktin/dwh-db.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v0.2</tag>
 	</scm>
 
 	<build>
@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.aktin</groupId>
 			<artifactId>dwh-api</artifactId>
-			<version>0.2-SNAPSHOT</version>
+			<version>0.2</version>
 		</dependency>
 		<dependency>
 			<!-- for @Produces annotation -->

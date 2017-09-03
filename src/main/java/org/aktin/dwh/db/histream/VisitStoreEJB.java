@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.aktin.Preferences;
 import org.aktin.dwh.PreferenceKey;
 
+import de.sekmi.histream.i2b2.DataDialect;
 import de.sekmi.histream.i2b2.PostgresVisitStore;
 
 
@@ -25,12 +26,12 @@ public class VisitStoreEJB extends PostgresVisitStore{
 		// locate data source
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource)ctx.lookup(prefs.get(PreferenceKey.i2b2DatasourceCRC));
-		open(ds.getConnection(), prefs.get(PreferenceKey.i2b2Project));
+		open(ds.getConnection(), prefs.get(PreferenceKey.i2b2Project), ObservationFactoryEJB.createDialect(prefs));
 		setRejectPatientChange(true);
 	}
 
 	public VisitStoreEJB(DataSource ds, String projectId) throws SQLException{
-		open(ds.getConnection(), projectId);
+		open(ds.getConnection(), projectId, new DataDialect());
 		setRejectPatientChange(true);
 	}
 	

@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import org.aktin.Preferences;
 import org.aktin.dwh.PreferenceKey;
 
+import de.sekmi.histream.i2b2.DataDialect;
 import de.sekmi.histream.i2b2.PostgresPatientStore;
 
 
@@ -36,12 +37,12 @@ public class PatientStoreEJB extends PostgresPatientStore{
 		DataSource ds = (DataSource)ctx.lookup(jndiDS);
 		Objects.requireNonNull(ds, "datasource not found: "+jndiDS);
 		Objects.requireNonNull(i2b2Project, "non-null i2b2 project id required");
-		
-		this.open(ds.getConnection(), i2b2Project);
+		DataDialect dd = ObservationFactoryEJB.createDialect(prefs);
+		this.open(ds.getConnection(), i2b2Project, dd);
 	}
 
 	public PatientStoreEJB(DataSource ds, String projectId) throws SQLException{
-		open(ds.getConnection(), projectId);
+		open(ds.getConnection(), projectId, new DataDialect());
 	}
 	
 	@PreDestroy

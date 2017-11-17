@@ -31,7 +31,8 @@ public class PatientStoreEJB extends PostgresPatientStore{
 
 		String jndiDS = prefs.get(PreferenceKey.i2b2DatasourceCRC);
 		log.info("Using datasource: "+jndiDS);
-
+		Objects.requireNonNull(jndiDS);
+		
 		// locate data source
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource)ctx.lookup(jndiDS);

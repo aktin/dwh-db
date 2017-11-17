@@ -248,4 +248,22 @@
             columnName="broker_query_id"
             tableName="broker_requests"/>
 	</changeSet>
+	<!-- 
+	<changeSet id="v0.4" author="rwm">
+		<createTable tableName="opt_out_patients">
+			// TODO root+extension or hash?
+			<column name="patient_id_root" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="patient_id_extension" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_time" type="TIMESTAMP" remarks="when the rule was created">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_user" type="VARCHAR(64)" remarks="user who created the rule">
+				<constraints nullable="false"/>
+			</column>
+	</changeSet>
+	 -->
 </databaseChangeLog>

@@ -248,6 +248,38 @@
             columnName="broker_query_id"
             tableName="broker_requests"/>
 	</changeSet>
+	<changeSet id="v0.4" author="rwm">
+		<dropTable tableName="broker_query_rules"/>
+		<createTable tableName="broker_query_rules">
+			<!-- TODO broker id -->
+			<column name="broker_query_id" type="integer" remarks="query to which this rule applies">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_time" type="TIMESTAMP" remarks="when the rule was created">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_user" type="VARCHAR(64)" remarks="user who created the rule">
+				<constraints nullable="false"/>
+			</column>
+			<column name="action" type="VARCHAR(64)" remarks="action to perform. e.g. accept, reject, star">
+				<constraints nullable="false"/>
+			</column>
+			<column name="signature_algo" type="VARCHAR(64)" remarks="signature algorithm used">
+				<constraints nullable="false"/>
+			</column>
+			<column name="signature_data" type="VARCHAR(128)" remarks="message digest over the query XML (to prevent query modifications)">
+				<constraints nullable="false"/>
+			</column>
+
+			<column name="comment" type="VARCHAR(255)" remarks="description, will not be sent">
+				<constraints nullable="true"/>
+			</column>
+			
+			<!-- 
+			 -->
+			
+		</createTable>
+	</changeSet>
 	<!-- 
 	<changeSet id="v0.4" author="rwm">
 		<createTable tableName="opt_out_patients">

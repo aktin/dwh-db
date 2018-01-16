@@ -165,7 +165,7 @@
 		<dropTable tableName="broker_queries"/>
 		<!--  TODO add column api_key to broker_servers -->
 		<createTable tableName="broker_requests">
-			<!-- TODO unique request id e.g. if multiple brokers are used -->
+			<!-- TODO unique request id e.g. if multiple brokers are used. or add broker_id column -->
 			<column name="broker_request_id" type="integer">
 				<constraints nullable="false"/>
 			</column>

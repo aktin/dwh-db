@@ -253,6 +253,13 @@
 		<createTable tableName="broker_query_rules">
 			<!-- TODO broker id -->
 			<column name="broker_query_id" type="integer" remarks="query to which this rule applies">
+				<!-- NULL query id means default behavior for all queries -->
+				<constraints nullable="true"/>
+			</column>
+			<column name="signature_algo" type="VARCHAR(64)" remarks="signature algorithm used">
+				<constraints nullable="true"/>
+			</column>
+			<column name="signature_data" type="VARBINARY(128)" remarks="message digest over the query XML (to prevent query modifications)">
 				<constraints nullable="true"/>
 			</column>
 			<column name="create_time" type="TIMESTAMP" remarks="when the rule was created">
@@ -264,18 +271,23 @@
 			<column name="action" type="VARCHAR(64)" remarks="action to perform. e.g. accept, reject, star">
 				<constraints nullable="false"/>
 			</column>
-			<column name="signature_algo" type="VARCHAR(64)" remarks="signature algorithm used">
-				<constraints nullable="false"/>
-			</column>
-			<column name="signature_data" type="VARBINARY(128)" remarks="message digest over the query XML (to prevent query modifications)">
-				<constraints nullable="false"/>
-			</column>
 
 			<column name="comment" type="VARCHAR(255)" remarks="description, will not be sent">
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
-		<!--  TODO create unique index on broker_query_rules.broker_query_id -->
+		<addUniqueConstraint tableName="broker_query_rules" columnNames="broker_query_id" />
+
+		<!--  TODO create unique index on broker_query_rules.broker_query_id 
+		 <addUniqueConstraint catalogName="cat"
+            columnNames="id, name"
+            constraintName="const_name"
+            deferrable="true"
+            disabled="true"
+            initiallyDeferred="true"
+            schemaName="public"
+            tableName="person"
+            tablespace="A String"/> -->
 		
 		<!-- TODO root+extension or hash?
 		<createTable tableName="opt_out_patients">

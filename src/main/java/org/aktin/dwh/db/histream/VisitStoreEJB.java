@@ -27,12 +27,12 @@ public class VisitStoreEJB extends PostgresVisitStore{
 		InitialContext ctx = new InitialContext();
 		DataSource ds = (DataSource)ctx.lookup(prefs.get(PreferenceKey.i2b2DatasourceCRC));
 		open(ds.getConnection(), prefs.get(PreferenceKey.i2b2Project), ObservationFactoryEJB.createDialect(prefs));
-		setRejectPatientChange(true);
+		setRejectPatientChange(false);
 	}
 
 	public VisitStoreEJB(DataSource ds, String projectId) throws SQLException{
 		open(ds.getConnection(), projectId, new DataDialect());
-		setRejectPatientChange(true);
+		setRejectPatientChange(false); // allow patient changes
 	}
 	
 	@PreDestroy

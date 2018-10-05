@@ -337,6 +337,8 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		<addPrimaryKey tableName="optinout_patients" columnNames="study_id,pat_ref,pat_root,pat_ext"/>
+
 		<createTable tableName="optinout_audittrail">
 			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
 				<constraints nullable="false"/>

@@ -292,10 +292,13 @@
 			<column name="description" type="VARCHAR(255)">
 				<constraints nullable="false"/>
 			</column>
+			<column name="sic_validate" type="VARCHAR(128)" remarks="rule how to validate the study_subject_id">
+				<constraints nullable="true"/>
+			</column>
 			<column name="sic_generate" type="VARCHAR(128)" remarks="rule how the subject id code (study_subject_id) is generated or entered">
 				<constraints nullable="true"/>
 			</column>
-			<column name="sic_validate" type="VARCHAR(128)" remarks="rule how to validate the study_subject_id">
+			<column name="sic_generator_state" type="VARCHAR(64)" remarks="state of the SIC generator. changes with each generated SIC (e.g. to produce a sequence)">
 				<constraints nullable="true"/>
 			</column>
 			<column name="options" type="VARCHAR(128)" remarks="comma separated list of options: optin or optout or both, no, manual or automatic id generation. e.g. OPT=O,ID=AUTO">

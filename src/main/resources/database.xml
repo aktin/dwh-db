@@ -278,32 +278,94 @@
 		</createTable>
 		<addUniqueConstraint tableName="broker_query_rules" columnNames="broker_query_id" />
 
-		<!--  TODO create unique index on broker_query_rules.broker_query_id 
-		 <addUniqueConstraint catalogName="cat"
-            columnNames="id, name"
-            constraintName="const_name"
-            deferrable="true"
-            disabled="true"
-            initiallyDeferred="true"
-            schemaName="public"
-            tableName="person"
-            tablespace="A String"/> -->
-		
 		<!-- TODO root+extension or hash?
-		<createTable tableName="opt_out_patients">
-			<column name="patient_id_root" type="VARCHAR(255)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="patient_id_extension" type="VARCHAR(255)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="create_time" type="TIMESTAMP" remarks="when the rule was created">
-				<constraints nullable="false"/>
-			</column>
-			<column name="create_user" type="VARCHAR(64)" remarks="user who created the rule">
-				<constraints nullable="false"/>
-			</column>			
-		</createTable>
 		-->
+	</changeSet>
+	<changeSet id="v0.45" author="rwm">
+		<createTable tableName="optinout_studies">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"/>
+			</column>
+			<column name="title" type="VARCHAR(128)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="VARCHAR(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="sic_generate" type="VARCHAR(128)" remarks="rule how the subject id code (study_subject_id) is generated or entered">
+				<constraints nullable="true"/>
+			</column>
+			<column name="sic_validate" type="VARCHAR(128)" remarks="rule how to validate the study_subject_id">
+				<constraints nullable="true"/>
+			</column>
+			<column name="options" type="VARCHAR(128)" remarks="comma separated list of options: optin or optout or both, no, manual or automatic id generation. e.g. OPT=O,ID=AUTO">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="optinout_patients">
+			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_ref" type="VARCHAR(16)" remarks="How patients are referenced. one of patient,visit,encounter">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_root" type="VARCHAR(128)" remarks="id root (CDA)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_ext" type="VARCHAR(128)" remarks="id extension (CDA)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_user" type="VARCHAR(64)" remarks="user who created the entry, references i2b2 user name">
+				<constraints nullable="false"/>
+			</column>
+			<column name="create_timestamp" type="TIMESTAMP" remarks="user who created the entry">
+				<constraints nullable="false"/>
+			</column>
+			<column name="optinout" type="CHAR(1)" remarks="I for opt-int, O for opt-out">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_psn" type="VARCHAR(128)" remarks="patient pseudonym, generated (hash) from root, ext and separately configured salt/pepper">
+				<constraints nullable="true"/>
+			</column>
+			<column name="i2b2_patient_num" type="INTEGER" remarks="reference to i2b2 patient number, will be updated later">
+				<constraints nullable="true"/>
+			</column>
+			<column name="study_subject_id" type="VARCHAR(128)" remarks="study specific patient id, may be null">
+				<constraints nullable="true"/>
+			</column>			
+			<column name="comment" type="VARCHAR(255)" remarks="user specific comment">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+		<createTable tableName="optinout_audittrail">
+			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_ref" type="VARCHAR(16)" remarks="How patients are referenced. one of patient,visit,encounter">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_root" type="VARCHAR(128)" remarks="id root (CDA)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="pat_ext" type="VARCHAR(128)" remarks="id extension (CDA)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="action_user" type="VARCHAR(64)" remarks="user who created the entry, references i2b2 user name">
+				<constraints nullable="false"/>
+			</column>
+			<column name="action_timestamp" type="TIMESTAMP" remarks="user who created the entry">
+				<constraints nullable="false"/>
+			</column>
+			<column name="action" type="CHAR(2)" remarks="first character C/D/U (create/delete/update), second char I/O for opt-in/out">
+				<constraints nullable="false"/>
+			</column>
+			<column name="study_subject_id" type="VARCHAR(128)" remarks="study specific patient id, may be null">
+				<constraints nullable="true"/>
+			</column>
+			<column name="comment" type="VARCHAR(255)" remarks="user specific comment entered when created">
+				<constraints nullable="true"/>
+			</column>
+		</createTable>
+
 	</changeSet>
 </databaseChangeLog>

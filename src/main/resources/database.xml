@@ -292,10 +292,16 @@
 			<column name="description" type="VARCHAR(255)">
 				<constraints nullable="false"/>
 			</column>
+			<column name="created_ts" type="TIMESTAMP" remarks="when the study entry was created">
+				<constraints nullable="true"/>
+			</column>
+			<column name="closed_ts" type="TIMESTAMP" remarks="when the study entry was closed. study is inactive when not null">
+				<constraints nullable="true"/>
+			</column>
 			<column name="sic_validate" type="VARCHAR(128)" remarks="rule how to validate the study_subject_id">
 				<constraints nullable="true"/>
 			</column>
-			<column name="sic_generate" type="VARCHAR(128)" remarks="rule how the subject id code (study_subject_id) is generated or entered">
+			<column name="sic_generate" type="VARCHAR(128)" remarks="rule how the subject id code (study_subject_id) is generated or entered. e.g. SEQUENCE(100,1) for a numeric sequence starting with 100 and incrementing by one">
 				<constraints nullable="true"/>
 			</column>
 			<column name="sic_generator_state" type="VARCHAR(64)" remarks="state of the SIC generator. changes with each generated SIC (e.g. to produce a sequence)">
@@ -305,6 +311,19 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		<insert tableName="optinout_studies">
+            <column name="id" value="0"/>
+            <column name="title" value="AKTIN"/>
+            <column name="description" value="Notaufnahmeregister"/>
+            <column name="options" value="OPT=O,ID=NONE"/>
+        </insert>
+		<insert tableName="optinout_studies">
+            <column name="id" value="1"/>
+            <column name="title" value="ENQuIRE"/>
+			<column name="sic_generate" value="SEQUENCE(1000,1)"/>
+            <column name="description" value="Evaluierung der Qualitätsindikatoren von Notaufnahmen auf Outcome-Relevanz für den Patienten"/>
+            <column name="options" value="OPT=I,ID=GEN"/>
+        </insert>
 		<createTable tableName="optinout_patients">
 			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
 				<constraints nullable="false"/>
@@ -371,6 +390,5 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
-
 	</changeSet>
 </databaseChangeLog>

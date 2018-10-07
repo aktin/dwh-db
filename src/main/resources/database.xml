@@ -283,7 +283,7 @@
 	</changeSet>
 	<changeSet id="v0.45" author="rwm">
 		<createTable tableName="optinout_studies">
-			<column name="id" type="integer">
+			<column name="id" type="VARCHAR(16)">
 				<constraints nullable="false" primaryKey="true"/>
 			</column>
 			<column name="title" type="VARCHAR(128)">
@@ -293,39 +293,42 @@
 				<constraints nullable="false"/>
 			</column>
 			<column name="created_ts" type="TIMESTAMP" remarks="when the study entry was created">
-				<constraints nullable="true"/>
+				<constraints nullable="false"/>
 			</column>
 			<column name="closed_ts" type="TIMESTAMP" remarks="when the study entry was closed. study is inactive when not null">
 				<constraints nullable="true"/>
+			</column>
+			<column name="options" type="VARCHAR(128)" remarks="comma separated list of options: optin or optout or both, no, manual or automatic id generation. e.g. OPT=O,ID=AUTO">
+				<constraints nullable="false"/>
 			</column>
 			<column name="sic_validate" type="VARCHAR(128)" remarks="rule how to validate the study_subject_id">
 				<constraints nullable="true"/>
 			</column>
 			<column name="sic_generate" type="VARCHAR(128)" remarks="rule how the subject id code (study_subject_id) is generated or entered. e.g. SEQUENCE(100,1) for a numeric sequence starting with 100 and incrementing by one">
+				<!-- NULL: no SICs, "MANUAL": manual entry of SICs, other: use string to  -->
 				<constraints nullable="true"/>
 			</column>
 			<column name="sic_generator_state" type="VARCHAR(64)" remarks="state of the SIC generator. changes with each generated SIC (e.g. to produce a sequence)">
 				<constraints nullable="true"/>
 			</column>
-			<column name="options" type="VARCHAR(128)" remarks="comma separated list of options: optin or optout or both, no, manual or automatic id generation. e.g. OPT=O,ID=AUTO">
-				<constraints nullable="true"/>
-			</column>
 		</createTable>
 		<insert tableName="optinout_studies">
-            <column name="id" value="0"/>
+            <column name="id" value="AKTIN"/>
             <column name="title" value="AKTIN"/>
             <column name="description" value="Notaufnahmeregister"/>
-            <column name="options" value="OPT=O,ID=NONE"/>
+            <column name="created_ts" value="2018-01-01 00:00:00"/>
+            <column name="options" value="OPT=O"/>
         </insert>
 		<insert tableName="optinout_studies">
-            <column name="id" value="1"/>
+            <column name="id" value="ENQUIRE"/>
             <column name="title" value="ENQuIRE"/>
 			<column name="sic_generate" value="SEQUENCE(1000,1)"/>
             <column name="description" value="Evaluierung der Qualitätsindikatoren von Notaufnahmen auf Outcome-Relevanz für den Patienten"/>
-            <column name="options" value="OPT=I,ID=GEN"/>
+            <column name="created_ts" value="2018-02-01 00:00:00"/>
+            <column name="options" value="OPT=I"/>
         </insert>
 		<createTable tableName="optinout_patients">
-			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
+			<column name="study_id" type="VARCHAR(16)" remarks="References optinout_studies(id)">
 				<constraints nullable="false"/>
 			</column>
 			<column name="pat_ref" type="VARCHAR(16)" remarks="How patients are referenced. one of patient,visit,encounter">
@@ -359,10 +362,13 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		<createIndex tableName="optinout_patients" indexName="optinout_patients_study">
+			<column name="study_id"/>
+		</createIndex>
 		<addPrimaryKey tableName="optinout_patients" columnNames="study_id,pat_ref,pat_root,pat_ext"/>
 
 		<createTable tableName="optinout_audittrail">
-			<column name="study_id" type="INTEGER" remarks="References optinout_studies(id)">
+			<column name="study_id" type="VARCHAR(16)" remarks="References optinout_studies(id)">
 				<constraints nullable="false"/>
 			</column>
 			<column name="pat_ref" type="VARCHAR(16)" remarks="How patients are referenced. one of patient,visit,encounter">
@@ -390,5 +396,9 @@
 				<constraints nullable="true"/>
 			</column>
 		</createTable>
+		<createIndex tableName="optinout_audittrail" indexName="optinout_audittrail_study">
+			<column name="study_id"/>
+		</createIndex>
+
 	</changeSet>
 </databaseChangeLog>

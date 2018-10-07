@@ -103,7 +103,7 @@ public class TestDataSource implements DataSource{
 		return getConnection();
 	}
 
-	public void dropAll() throws LiquibaseException, SQLException{
+	public static void dropAll() throws LiquibaseException, SQLException{
 		try( Connection dbc = getVanillaConnection() ){
 			LiquibaseWrapper w = new LiquibaseWrapper(dbc);
 			w.getLiquibase().dropAll();

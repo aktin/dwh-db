@@ -349,18 +349,22 @@
 			<column name="optinout" type="CHAR(1)" remarks="I for opt-int, O for opt-out">
 				<constraints nullable="false"/>
 			</column>
-			<column name="pat_psn" type="VARCHAR(128)" remarks="patient pseudonym, generated (hash) from root, ext and separately configured salt/pepper">
+			<column name="study_subject_id" type="VARCHAR(128)" remarks="study specific patient id, may be null">
+				<constraints nullable="true"/>
+			</column>
+			<column name="comment" type="VARCHAR(255)" remarks="user specific comment">
 				<constraints nullable="true"/>
 			</column>
 			<column name="i2b2_patient_num" type="INTEGER" remarks="reference to i2b2 patient number, will be updated later">
 				<constraints nullable="true"/>
 			</column>
-			<column name="study_subject_id" type="VARCHAR(128)" remarks="study specific patient id, may be null">
-				<constraints nullable="true"/>
-			</column>			
-			<column name="comment" type="VARCHAR(255)" remarks="user specific comment">
+			<column name="i2b2_last_visit" type="TIMESTAMP" remarks="timestamp of most recent visit admission, updated periodically">
 				<constraints nullable="true"/>
 			</column>
+			<column name="i2b2_sync_time" type="TIMESTAMP" remarks="timestamp when the synchronization with i2b2 was last performed">
+				<constraints nullable="true"/>
+			</column>
+
 		</createTable>
 		<createIndex tableName="optinout_patients" indexName="optinout_patients_study">
 			<column name="study_id"/>

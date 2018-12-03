@@ -340,6 +340,9 @@
 			<column name="pat_ext" type="VARCHAR(128)" remarks="id extension (CDA)">
 				<constraints nullable="false"/>
 			</column>
+			<column name="pat_psn" type="VARCHAR(64)" remarks="pseudonym calculated for the root/ext combination">
+				<constraints nullable="false"/>
+			</column>
 			<column name="create_user" type="VARCHAR(64)" remarks="user who created the entry, references i2b2 user name">
 				<constraints nullable="false"/>
 			</column>

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
@@ -27,26 +26,11 @@ import liquibase.exception.LiquibaseException;
  * @author R.W.Majeed
  *
  */
-public class TestDatabase {
+public class TestDatabase extends TestDatabasePlain {
 
-	/**
-	 * Create in-memory database containing the AKTIN tables
-	 * and default data.
-	 * <p>
-	 * The database will be closed when {@link Connection#close()} 
-	 * is called.
-	 * 
-	 * @return connection to in-memory database 
-	 * @throws SQLException 
-	 */
-	public static final Connection createTestConnection() throws SQLException{
-		TestDatabase test = new TestDatabase();
-		Connection dbc = test.createDatabase();
-		initializeDatabase(dbc);
-		return dbc;
-	}
 	
-	public static final void initializeDatabase(Connection dbc) throws SQLException{
+	@Override
+	public void initializeDatabase(Connection dbc) throws SQLException{
 		try( LiquibaseWrapper w = new LiquibaseWrapper(dbc) ){
 			w.update();
 		} catch (LiquibaseException e) {
@@ -60,15 +44,6 @@ public class TestDatabase {
 		}
 	}
 
-	private Connection createDatabase() throws SQLException{
-		try {
-			Class.forName("org.hsqldb.jdbc.JDBCDriver");
-		} catch (ClassNotFoundException e) {
-			throw new SQLException(e);
-		}
-		return DriverManager.getConnection("jdbc:hsqldb:mem:aktin_test;shutdown=true", "sa", "");
-	}
-	
 	@Test
 	public void changelogResourceIsReadable() throws IOException{
 		try( InputStream in = this.getClass().getResourceAsStream(LiquibaseWrapper.CHANGELOG_RESOURCE) ){

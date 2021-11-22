@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.aktin</groupId>
 			<artifactId>dwh-api</artifactId>
-			<version>0.10-SNAPSHOT</version>
+			<version>0.9</version>
 		</dependency>
 		<dependency>
 			<!-- for @Produces annotation -->

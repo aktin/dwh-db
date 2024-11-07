@@ -12,6 +12,6 @@ on:
 
 jobs:
   build:
-    uses: aktin/aktin-github-scripts/workflows/maven-build-deploy.yml@main
+    uses: aktin/aktin-github-scripts/.github/workflows/maven-build-deploy.yml@main
     with:
       java-version: 11

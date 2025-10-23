@@ -11,14 +11,14 @@
 	<parent>
 		<groupId>org.aktin</groupId>
 		<artifactId>aktin</artifactId>
-		<version>0.12</version>
+		<version>0.13</version>
 	</parent>
 
 	<properties>
 		<project.scm.id>github.com</project.scm.id>
 	</properties>
 	<scm>
-		<developerConnection>scm:git:git@github.com:aktin/dwh-db.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/aktin/dwh-db.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.aktin</groupId>
 			<artifactId>dwh-api</artifactId>
-			<version>0.10</version>
+			<version>0.11</version>
 		</dependency>
 		<dependency>
 			<!-- for @Produces annotation -->

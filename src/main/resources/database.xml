@@ -318,5 +318,4 @@
                 constraintName="pk_optinout_patients"/>
 
     </changeSet>
-
 </databaseChangeLog>

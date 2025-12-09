@@ -282,7 +282,7 @@
 		-->
 	</changeSet>
     <changeSet id="v0.5" author="wh">
-        <createTable tableName="optinout_patients">
+        <createTable schemaName="aktin" tableName="optinout_patients">
             <column name="study_id" type="VARCHAR(16)">
                 <constraints nullable="false"/>
             </column>

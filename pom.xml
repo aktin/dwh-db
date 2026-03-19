@@ -6,7 +6,7 @@
 
 	<groupId>org.aktin.dwh</groupId>
 	<artifactId>dwh-db</artifactId>
-	<version>0.15-SNAPSHOT</version>
+	<version>0.14-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.aktin</groupId>
